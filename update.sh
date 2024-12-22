@@ -7,3 +7,8 @@
 
 ./pull_all.py ec
 ./collect.py ec/* --csv ec.csv --full
+
+echo "Last updated: $(date)" > last_update.txt
+git add .
+git commit -m "Update on $(date)"
+git push
