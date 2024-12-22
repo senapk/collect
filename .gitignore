@@ -1,0 +1,17 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+venv
+a_dd
+ec
+b_dd
+prova_a
+prova_b
+prova_ec
+*usernames*
