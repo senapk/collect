@@ -77,7 +77,12 @@ def get_yaml_tasks(folder: str) -> dict[str, Task]:
             for key in data["tasks"]:
                 value = data["tasks"][key]
                 parts = value.split(":")
-                if len(parts) == 4:
+                if len(parts) == 3:
+                    coverage = int(parts[2])
+                    opts = [(0, 0), (1, 1), (1, 2), (2, 2), (3, 2), (1, 3), (2, 3), (3, 3), (4, 3), (3, 4), (4, 4)]
+                    autonomy, ability = opts[int(parts[0])]
+                    tasks[key] = Task(key, coverage, autonomy, ability)
+                elif len(parts) == 4:
                     coverage = int(parts[0])
                     autonomy = int(parts[1])
                     ability = int(parts[2])
