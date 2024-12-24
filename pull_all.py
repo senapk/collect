@@ -35,5 +35,7 @@ for folder, process in processes:
     error : str = stderr.decode().strip()
     if not output.startswith("Already up to date."):
         print(folder)
-
+        if error != "":
+            # print in red
+            print(f"\033[91m{error}\033[0m")
     
