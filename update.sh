@@ -13,9 +13,9 @@ fi
 
 if [[ " $* " == *" --collect "* ]]; then
     echo "Collecting data from repositories"
-    ./collect.py a_dd/* --csv a_dd.csv --full
-    ./collect.py b_dd/* --csv b_dd.csv --full
-    ./collect.py ec/* --csv ec.csv --full
+    ./collect.py a_dd/* --csv a_dd.csv --graph graph_a_dd.txt
+    ./collect.py b_dd/* --csv b_dd.csv --graph graph_b_dd.txt
+    ./collect.py ec/*   --csv ec.csv   --graph graph_ec.txt
 fi
 
 if [[ " $* " == *" --push "* ]]; then

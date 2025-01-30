@@ -61,6 +61,14 @@ class Task:
     def __str__(self) -> str:
         return self.str_full()
 
+def get_user_graph(folder: str) -> str:
+    print(".." + folder)
+    folder = os.path.join(folder, "poo")
+    # run subprocess and capture output
+    result = subprocess.run(["tko", "rep", "graph", folder], capture_output=True, text=True)
+    output = result.stdout
+    return output
+
 def get_user_tasks(folder: str) -> dict[str, Task]:
     print(".." + folder)
     folder = os.path.join(folder, "poo")
@@ -109,8 +117,8 @@ def format_sheet(sheet: list[list[str]]) -> list[list[str]]:
             line[i] = cell.ljust(max_len[i])
     return sheet
 
-def load_line(folder: str, tasks: dict[str, Task], header: list[str], full_str: bool) -> list[str]:
-    task_len = calc_task_len(full_str)
+def load_line(folder: str, tasks: dict[str, Task], header: list[str], full: bool) -> list[str]:
+    task_len = calc_task_len(full)
     student = os.path.basename(folder)
     line: list[str] = ["" for _ in range(len(header))]
     for i, key in enumerate(header):
@@ -118,7 +126,7 @@ def load_line(folder: str, tasks: dict[str, Task], header: list[str], full_str: 
             line[i] = student
         else:
             if key in tasks:
-                line[i] = tasks[key].str_full() if full_str else tasks[key].str_mini()
+                line[i] = tasks[key].str_full() if full else tasks[key].str_mini()
             else:
                 line[i] = "_" * task_len
     return line
@@ -134,7 +142,7 @@ def main():
     parser.add_argument("--version", action="store_true")
     parser.add_argument("folders", nargs="*", help="Pastas dos projetos.")
     parser.add_argument("--csv", help="Caminho do arquivo CSV.")
-    parser.add_argument("--full", action="store_true", help="Coleta de todos os dados")
+    parser.add_argument("--graph", type=str)
     args = parser.parse_args()
 
     if args.version:
@@ -144,27 +152,34 @@ def main():
     folders = [f for f in args.folders if os.path.isdir(f)]
     folders = sorted(args.folders)
 
-    # map folder to dict[task_name, Task]
-    # user_tasks_map: dict[str, dict[str, Task]] = load_history_and_yaml(folders)
-    user_tasks_map: dict[str, dict[str, Task]] = {}
-    for folder in folders:
-        user_tasks_map[folder] = get_user_tasks(folder)
-    minutes_threshold = 30
-    header: list[str] = load_header(user_tasks_map, args.csv)
-    sheet: list[list[str]] = [header]
-    for folder in folders:
-        tasks_map = user_tasks_map[folder]
-        line = load_line(folder, tasks_map, header, args.full)
-        sheet.append(line)
-    sheet = format_sheet(sheet)
-    
+    if args.graph:
+        with open(args.graph, "w", encoding="utf-8") as graphfile:
+            for folder in folders:
+                graph = get_user_graph(folder)
+                graphfile.write("\n")
+                graphfile.write(folder)
+                graphfile.write(graph)
+                graphfile.write("\n")
+
     if args.csv:
+        # map folder to dict[task_name, Task]
+        # user_tasks_map: dict[str, dict[str, Task]] = load_history_and_yaml(folders)
+        user_tasks_map: dict[str, dict[str, Task]] = {}
+        for folder in folders:
+            user_tasks_map[folder] = get_user_tasks(folder)
+
+        header: list[str] = load_header(user_tasks_map, args.csv)
+        sheet: list[list[str]] = [header]
+        for folder in folders:
+            tasks_map = user_tasks_map[folder]
+            line = load_line(folder, tasks_map, header, full=True)
+            sheet.append(line)
+        sheet = format_sheet(sheet)
+        
         with open(args.csv, "w", newline="", encoding="utf-8") as csvfile:
             writer = csv.writer(csvfile)
             writer.writerows(sheet)
-    else:
-        for line in sheet:
-            print(",".join(line))
+
 
 if __name__ == "__main__":
     main()
