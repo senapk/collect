@@ -62,10 +62,10 @@ class Task:
         return self.str_full()
 
 def get_user_tasks(folder: str) -> dict[str, Task]:
-    print(folder)
+    print(".." + folder)
     folder = os.path.join(folder, "poo")
     # run subprocess and capture output
-    result = subprocess.run(["rota", "rep", "resume", folder], capture_output=True, text=True)
+    result = subprocess.run(["tko", "rep", "resume", folder], capture_output=True, text=True)
     output = result.stdout
     #print(output)
     #parse output yaml into a dict[str, dict[str, str]]

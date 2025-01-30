@@ -12,7 +12,7 @@ if [[ " $* " == *" --pull "* ]]; then
 fi
 
 if [[ " $* " == *" --collect "* ]]; then
-
+    echo "Collecting data from repositories"
     ./collect.py a_dd/* --csv a_dd.csv --full
     ./collect.py b_dd/* --csv b_dd.csv --full
     ./collect.py ec/* --csv ec.csv --full
