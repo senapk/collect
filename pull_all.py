@@ -14,7 +14,7 @@ directory = args.directory
 
 folders = [f for f in os.listdir(directory) if os.path.isdir(os.path.join(directory, f))]
 outputs: list[str] = []
-processes: list[Tuple[str, Any, Any]] = []
+processes: list[Tuple[str, Any, Any, Any]] = []
 
 root = os.getcwd()
 # create a child process for each folder and wait for it to finish after the for loop
@@ -24,14 +24,16 @@ for folder in folders:
         continue
     folder = os.path.join(directory, folder)
     os.chdir(folder)
+    restore = subprocess.Popen(["git", "restore", "."], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     clean = subprocess.Popen(["git", "clean", "-fd"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     pull = subprocess.Popen(["git", "pull"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    processes.append((folder, clean, pull))
+    processes.append((folder, restore, clean, pull))
     os.chdir(root)
 
 # Espera todos os subprocessos terminarem
-for folder, clean, pull in processes:
+for folder, restore, clean, pull in processes:
     print(".." + folder)
+    restore.communicate()
     clean.communicate()
     stdout, stderr = pull.communicate()
     # print(f"Comando terminou com código {process.returncode}")
