@@ -16,16 +16,6 @@ def load_csv(arquivo_csv) -> list[list[str]]:
     except FileNotFoundError:
         exit(f"Arquivo '{arquivo_csv}' não encontrado.")
 
-# count how many characters are in common in the beginning of two strings
-def calc_name_collision(one, two) -> int:
-    count = 0
-    for i in range(min(len(one), len(two))):
-        if one[i] == two[i]:
-            count += 1
-        else:
-            break
-    return count
-
 class Task:
     def __init__(self, name: str, coverage: int = 0, autonomy: int = 0, skill: int = 0, attempts: int = 0, elapsed: int = 0):
         self.name = name
@@ -48,7 +38,11 @@ class Task:
         autonomy_str = Task.get_autonomy_symbol(self.autonomy)
         ability_str = Task.get_ability_symbol(self.skill)
         return f"{coverage_str}{autonomy_str}{ability_str}"
-
+    
+    def str_count(self) -> str:
+        minutes_str = str(self.elapsed).rjust(3, "0")
+        count_str = str(self.attempts).rjust(3, "0")
+        return f"{minutes_str}m,{count_str}e"
 
     def str_full(self) -> str:
         coverage_str = str(self.coverage).rjust(3, "0")
@@ -56,10 +50,7 @@ class Task:
         minutes_str = str(self.elapsed).rjust(3, "0")
         autonomy_str = Task.get_autonomy_symbol(self.autonomy)
         ability_str = Task.get_ability_symbol(self.skill)
-        return f"{coverage_str}{autonomy_str}{minutes_str}{ability_str}{count_str}"
-    
-    def __str__(self) -> str:
-        return self.str_full()
+        return f"{coverage_str}{autonomy_str}{ability_str}{minutes_str}m{count_str}e"
 
 def get_user_graph(folder: str) -> str:
     print(".." + folder)
@@ -107,18 +98,30 @@ def load_header(user_tasks_map: dict[str, dict[str, Task]], arquivo_csv: str | N
     return header
 
 def format_sheet(sheet: list[list[str]]) -> list[list[str]]:
-    # discover the maximum length of each column and pad the strings
-    max_len = [0] * len(sheet[0])
-    for line in sheet:
-        for i, cell in enumerate(line):
-            max_len[i] = max(max_len[i], len(cell))
-    for line in sheet:
-        for i, cell in enumerate(line):
-            line[i] = cell.ljust(max_len[i])
+    nl = len(sheet)
+    nc = len(sheet[0])
+
+    for c in range(nc):
+        for l in range(nl):
+            sheet[l][c] = sheet[l][c].strip()
+
+    for c in range(nc):
+        max_len = 0
+        for l in range(nl):
+            max_len = max(max_len, len(sheet[l][c]))
+        for l in range(nl):
+            if c == 0:
+                sheet[l][c] = sheet[l][c].ljust(max_len)
+            else:
+                sheet[l][c] = sheet[l][c].rjust(max_len)
+
+    # for line in sheet:
+    #     for i, cell in enumerate(line):
+    #         line[i] = cell.ljust(max_len[i])
     return sheet
 
-def load_line(folder: str, tasks: dict[str, Task], header: list[str], full: bool) -> list[str]:
-    task_len = calc_task_len(full)
+def load_line(folder: str, tasks: dict[str, Task], header: list[str], mode: str) -> list[str]:
+    task_len = calc_task_len(mode)
     student = os.path.basename(folder)
     line: list[str] = ["" for _ in range(len(header))]
     for i, key in enumerate(header):
@@ -126,14 +129,21 @@ def load_line(folder: str, tasks: dict[str, Task], header: list[str], full: bool
             line[i] = student
         else:
             if key in tasks:
-                line[i] = tasks[key].str_full() if full else tasks[key].str_mini()
+                if mode == "count":
+                    line[i] = tasks[key].str_count()
+                elif mode == "full":
+                    line[i] = tasks[key].str_full()
+                else:
+                    line[i] = tasks[key].str_mini()
             else:
                 line[i] = "_" * task_len
     return line
 
-def calc_task_len(full: bool) -> int:
-    if full:
+def calc_task_len(mode: str) -> int:
+    if mode == "full":
         return len(Task("x", 0, 0, 0).str_full())
+    if mode == "count":
+        return len(Task("x", 0, 0, 0).str_count())
     return len(Task("x", 0, 0, 0).str_mini())
 
 def main():
@@ -169,17 +179,26 @@ def main():
             user_tasks_map[folder] = get_user_tasks(folder)
 
         header: list[str] = load_header(user_tasks_map, args.csv)
-        sheet: list[list[str]] = [header]
+        header_notes = [x for x in header]
+        header_count = [x for x in header]
+        sheet_notes: list[list[str]] = [header_notes]
+        sheet_count: list[list[str]] = [header_count]
         for folder in folders:
             tasks_map = user_tasks_map[folder]
-            line = load_line(folder, tasks_map, header, full=True)
-            sheet.append(line)
-        sheet = format_sheet(sheet)
+            line_notes = load_line(folder, tasks_map, header, "notes")
+            line_count = load_line(folder, tasks_map, header, "full")
+            sheet_notes.append(line_notes)
+            sheet_count.append(line_count)
+        sheet_notes = format_sheet(sheet_notes)
+        sheet_count = format_sheet(sheet_count)
         
         with open(args.csv, "w", newline="", encoding="utf-8") as csvfile:
             writer = csv.writer(csvfile)
-            writer.writerows(sheet)
-
+            writer.writerows(sheet_notes)
+        
+        with open(args.csv.replace(".csv", "_count.csv"), "w", newline="", encoding="utf-8") as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerows(sheet_count)
 
 if __name__ == "__main__":
     main()
