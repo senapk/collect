@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ " $* " == *" --all "* ]]; then
-    set -- "$@" --headers --pull --collect -grade --push
+    set -- "$@" --headers --pull --collect --grade --push
 fi
 
 
