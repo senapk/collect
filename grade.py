@@ -40,7 +40,7 @@ def get_user_task_grade(grade: str) -> float:
     progress = grade[0:3] #numbers
     progress_value = int(progress) / 2 # 100 // 2 -> 50
     skill = get_self_grade_value(grade[3]) * 6 # 0 a 30
-    autonomy = get_self_grade_value(grade[4]) * 6 # 0 a 30
+    autonomy = get_self_grade_value(grade[4]) * 5 # 0 a 25
     total = (progress_value + skill + autonomy) / 10
     return total
 
