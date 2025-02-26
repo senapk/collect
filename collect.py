@@ -89,6 +89,8 @@ def load_header(user_tasks_map: dict[str, dict[str, Task]], arquivo_csv: str | N
         sheet = load_csv(arquivo_csv)
         header = sheet[0]
         header = [x.strip() for x in header]
+        if header[1] != "nota" and header[1] != "grade":
+            header.insert(1, "grade")
 
     else:
         tasks_key_set: set[str] = set()
@@ -124,7 +126,8 @@ def load_line(folder: str, tasks: dict[str, Task], header: list[str], mode: str)
     task_len = calc_task_len(mode)
     student = os.path.basename(folder)
     line: list[str] = ["" for _ in range(len(header))]
-    for i, key in enumerate(header):
+    header_keys = [x.split(":")[0] for x in header]
+    for i, key in enumerate(header_keys):
         if i == 0:
             line[i] = student
         else:
@@ -179,10 +182,13 @@ def main():
             user_tasks_map[folder] = get_user_tasks(folder)
 
         header: list[str] = load_header(user_tasks_map, args.csv)
+        
         header_notes = [x for x in header]
         header_count = [x for x in header]
+
         sheet_notes: list[list[str]] = [header_notes]
         sheet_count: list[list[str]] = [header_count]
+
         for folder in folders:
             tasks_map = user_tasks_map[folder]
             line_notes = load_line(folder, tasks_map, header, "notes")
