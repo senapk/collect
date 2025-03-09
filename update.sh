@@ -1,14 +1,14 @@
 #!/bin/bash
 
 if [[ " $* " == *" --all "* ]]; then
-    set -- "$@" --headers --pull --collect --grade --push
+    set -- "$@" --headers --pull --collect --grade --format --push
 fi
 
 
 if [[ " $* " == *" --headers "* ]]; then
     echo "Updating header files..."
-    head -1 a_dd.csv > b_dd.csv
-    head -1 a_dd.csv > ec.csv
+    head -2 a_dd.csv > b_dd.csv
+    head -2 a_dd.csv > ec.csv
 fi
 
 
@@ -26,6 +26,7 @@ if [[ " $* " == *" --collect "* ]]; then
     ./collect.py ec/*   --csv ec.csv   --graph graph_ec.txt
 fi
 
+
 if [[ " $* " == *" --grade "* ]]; then
     echo "Updating grades"
     ./grade.py a_dd.csv
@@ -36,6 +37,10 @@ if [[ " $* " == *" --grade "* ]]; then
     ./grade.py ec_count.csv
 fi
 
+if [[ " $* " == *" --format "* ]]; then
+    echo "Formatting data"
+    ./format.py *.csv
+fi
 
 if [[ " $* " == *" --push "* ]]; then
     echo "Last updated: $(date)" > last_update.txt
