@@ -37,7 +37,6 @@ def calc_grade(entry_list: list[Entry], notes: list[str], categories: dict[str, 
         extra = entry.optional
         if weight == 0:
             continue
-        print(get_user_task_grade(note))
         received_dict[entry.category] += get_user_task_grade(note) * weight
         if not extra:
             expected_dict[entry.category] += weight
