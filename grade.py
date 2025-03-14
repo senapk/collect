@@ -32,6 +32,7 @@ def calc_grade(entry_list: list[Entry], notes: list[str], categories: dict[str, 
         received_dict[cat] = 0
         expected_dict[cat] = 0
 
+    # calculando as notas para cada categoria
     for note, entry in zip(notes, entry_list):
         weight: float = float(entry.weight)
         extra = entry.optional
@@ -41,11 +42,12 @@ def calc_grade(entry_list: list[Entry], notes: list[str], categories: dict[str, 
         if not extra:
             expected_dict[entry.category] += weight
 
+    # juntando as notas de todas as categorias
     total_grade = 0.0
     for cat in categories:
         if expected_dict[cat] == 0:
             continue
-        total_grade += (received_dict[cat] / expected_dict[cat]) * categories[cat]
+        total_grade += min((received_dict[cat] / expected_dict[cat]), 10.0) * categories[cat]
     return total_grade / sum(categories.values())
 
 
