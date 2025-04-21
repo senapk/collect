@@ -1,0 +1,76 @@
+
+fup/tarefas-CamilaS-coder
+
+fup/tarefas-Glaubel
+
+fup/tarefas-KauaDev20
+
+fup/tarefas-Lazzure-ufc
+
+fup/tarefas-Lucas-Olii
+
+fup/tarefas-Luismbelo79
+
+fup/tarefas-Luiszszz
+
+fup/tarefas-Matheus-Mendes72
+
+fup/tarefas-Nayyra
+
+fup/tarefas-Nycolas6002
+
+fup/tarefas-PedroHenriqueVidal
+
+fup/tarefas-SuRaquel05
+
+fup/tarefas-ViniDuarte1111
+
+fup/tarefas-ceci097
+
+fup/tarefas-devjoaoluis
+
+fup/tarefas-felipeufc2025
+
+fup/tarefas-joseluis1100
+
+fup/tarefas-ryanlbb
+
+fup/tarefas-ryanlbpimentel
+
+fup/tarefas-spacercoding
+
+fup/tarefas-tiago-ufc
+
+fup/tarefas-v1n1-03                                                       (horas / semana)
+            ┌────────────────────────────────────────────────────────────────────────────────────────────────────┐
+ 1 -  0:58h ││                                                 ▌                                                 │ 
+            ││                                                 ▌                                                 │ 
+            ││                                                 ▌                                                 │ 
+            ││                                                 ▌                                                 │ 0.5h
+            ││                                                 ▌                                                 │ 
+            ││                                                 ▌                                                 │ 
+            ││                                                 ▌                                                 │ 
+            ││                                                 ▌                                                 │ 0.4h
+            ││                                                 ▌                                                 │ 
+            ││                                                 ▌                                                 │ 
+            ││                                                 ▌                                                 │ 
+            ││                                                 ▌                                                 │ 0.3h
+            ││                                                 ▌                                                 │ 
+            ││                                                 ▌                                                 │ 
+            ││                                                 ▌                                                 │ 
+            ││                                                 ▌                                                 │ 0.2h
+            ││                                                 ▌                                                 │ 
+            ││                                                 ▌                                                 │ 
+            ││                                                 ▌                                                 │ 
+            ││                                                 ▌                                                 │ 0.1h
+            ││                                                 ▌                                                 │ 
+            ││                                                 ▌                                                 │ 
+            ││                                                 ▌                                                 │ 
+            ││▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▌▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁│ 0.0h
+            └────────────────────────────────────────────────────────────────────────────────────────────────────┘
+            0.0s                    0.5s                     1.0s                     1.5s
+
+
+fup/tarefas-wenfurnas1
+
+fup/tarefas-yuri865

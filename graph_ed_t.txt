@@ -1,0 +1,106 @@
+
+ed_t/tarefas-Beeatriz-Castro
+
+ed_t/tarefas-CarlaCristinaSA
+
+ed_t/tarefas-ClidenorFilho
+
+ed_t/tarefas-Douglas-glith
+
+ed_t/tarefas-Edivar2k                                                       (horas / semana)
+            ┌────────────────────────────────────────────────────────────────────────────────────────────────────┐
+ 1 -  2:22h │                                                                                                   ▐│ 4h
+ 2 -  4:01h │                                                                                                   ▐│ 
+            │                                                                                                   ▐│ 
+            │                                                                                                   ▐│ 
+            │                                                                                                   ▐│ 
+            │                                                                                                   ▐│ 
+            │                                                                                                   ▐│ 3h
+            │                                                                                                   ▐│ 
+            │                                                                                                   ▐│ 
+            │                                                                                                   ▐│ 
+            │▖                                                                                                  ▐│ 
+            │▌                                                                                                  ▐│ 
+            │▌                                                                                                  ▐│ 2h
+            │▌                                                                                                  ▐│ 
+            │▌                                                                                                  ▐│ 
+            │▌                                                                                                  ▐│ 
+            │▌                                                                                                  ▐│ 
+            │▌                                                                                                  ▐│ 
+            │▌                                                                                                  ▐│ 1h
+            │▌                                                                                                  ▐│ 
+            │▌                                                                                                  ▐│ 
+            │▌                                                                                                  ▐│ 
+            │▌                                                                                                  ▐│ 
+            │▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▟│ 0h
+            └────────────────────────────────────────────────────────────────────────────────────────────────────┘
+            1.0s               1.2s                1.4s               1.6s                1.8s                2.0s
+
+
+ed_t/tarefas-EduardoAlmeida10
+
+ed_t/tarefas-Emilly-Pinheiro
+
+ed_t/tarefas-GuibasURL
+
+ed_t/tarefas-HenriqueSenaDev
+
+ed_t/tarefas-JGCL24
+
+ed_t/tarefas-Joao-Vitor-Rd
+
+ed_t/tarefas-KeltonMartins
+
+ed_t/tarefas-Layssaoliveira26
+
+ed_t/tarefas-Lipez-x
+
+ed_t/tarefas-Paulo-Sergio-Oliveira
+
+ed_t/tarefas-Randson-Silva
+
+ed_t/tarefas-TobiasTac
+
+ed_t/tarefas-Victorbvc
+
+ed_t/tarefas-abebuh21
+
+ed_t/tarefas-alvesmaarcos
+
+ed_t/tarefas-anaradlei
+
+ed_t/tarefas-annabeatryz31
+
+ed_t/tarefas-cauanrricardo
+
+ed_t/tarefas-davyanastaciodev
+
+ed_t/tarefas-dsfacundo
+
+ed_t/tarefas-eduardaffreitas
+
+ed_t/tarefas-fco-henrique
+
+ed_t/tarefas-gabrielrbsousa
+
+ed_t/tarefas-harielfr
+
+ed_t/tarefas-higormcarnauba
+
+ed_t/tarefas-jppiauilino
+
+ed_t/tarefas-kawantorres
+
+ed_t/tarefas-kayla0202
+
+ed_t/tarefas-kaylannesatiro
+
+ed_t/tarefas-lizandrapinheiro
+
+ed_t/tarefas-luiz-dev-ufc
+
+ed_t/tarefas-mczm9
+
+ed_t/tarefas-pamellaneco
+
+ed_t/tarefas-rudriguu2099

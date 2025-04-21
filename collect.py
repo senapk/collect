@@ -19,18 +19,18 @@ class Task:
         self.elapsed = elapsed
 
     @staticmethod
-    def get_autonomy_symbol(autonomy: int) -> str:
-        return ["x", "E", "D", "C", "B", "A"][autonomy]
+    def get_approach_symbol(approach: int) -> str:
+        return ["x", "E", "D", "C", "B", "A", "S"][approach]
     
     @staticmethod
-    def get_ability_symbol(ability: int) -> str:
-        return ["x", "e", "d", "c", "b", "a"][ability]
+    def get_autonomy_symbol(autonomy: int) -> str:
+        return ["x", "e", "d", "c", "b", "a"][autonomy]
 
     def str_mini(self) -> str:
         coverage_str = str(self.coverage).rjust(3, "0")
-        autonomy_str = Task.get_autonomy_symbol(self.autonomy)
-        ability_str = Task.get_ability_symbol(self.skill)
-        return f"{coverage_str}{autonomy_str}{ability_str}"
+        approach_str = Task.get_approach_symbol(self.autonomy)
+        autonomy_str = Task.get_autonomy_symbol(self.skill)
+        return f"{coverage_str}{approach_str}{autonomy_str}"
     
     def str_count(self) -> str:
         minutes_str = str(self.elapsed).rjust(3, "0")
@@ -41,8 +41,8 @@ class Task:
         coverage_str = str(self.coverage).rjust(3, "0")
         count_str = str(self.attempts).rjust(3, "0")
         minutes_str = str(self.elapsed).rjust(3, "0")
-        autonomy_str = Task.get_autonomy_symbol(self.autonomy)
-        ability_str = Task.get_ability_symbol(self.skill)
+        autonomy_str = Task.get_approach_symbol(self.autonomy)
+        ability_str = Task.get_autonomy_symbol(self.skill)
         return f"{coverage_str}{autonomy_str}{ability_str}{minutes_str}m{count_str}e"
 
 def get_user_graph(folder: str) -> str:
@@ -53,9 +53,9 @@ def get_user_graph(folder: str) -> str:
     output = result.stdout
     return output
 
-def get_user_tasks(folder: str) -> dict[str, Task]:
+def get_user_tasks(folder: str, rep_name: str) -> dict[str, Task]:
     print(".." + folder)
-    folder = os.path.join(folder, "poo")
+    folder = os.path.join(folder, rep_name)
     # run subprocess and capture output
     result = subprocess.run(["tko", "rep", "resume", folder], capture_output=True, text=True)
     output = result.stdout
@@ -103,9 +103,15 @@ def main():
     parser = argparse.ArgumentParser(description="Coleta de dados de atividades de programação.")
     parser.add_argument("--version", action="store_true")
     parser.add_argument("folders", nargs="*", help="Pastas dos projetos.")
+    parser.add_argument("--rep", help="Nome do repositório.")
     parser.add_argument("--csv", help="Caminho do arquivo CSV.")
     parser.add_argument("--graph", type=str)
     args = parser.parse_args()
+
+    if not args.rep:
+        print("É necessário informar o nome do repositório com --rep [fup|ed|poo].")
+        exit(1)
+        return
 
     if args.version:
         print("1.0")
@@ -132,7 +138,7 @@ def main():
     # user_tasks_map: dict[str, dict[str, Task]] = load_history_and_yaml(folders)
     user_tasks_map: dict[str, dict[str, Task]] = {}
     for folder in folders:
-        user_tasks_map[folder] = get_user_tasks(folder)
+        user_tasks_map[folder] = get_user_tasks(folder, args.rep)
 
     sheet = load_csv(args.csv) # carrega a planilha inteira a partir do csv
     entries = load_entries(sheet)

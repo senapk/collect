@@ -1,15 +1,20 @@
 #!/bin/bash
 
-rm -rf a_dd b_dd ec
 
-gh classroom clone student-repos -a 701141
-mv tko-rep-submissions b_dd
-./rename_folders.py b_dd usernames/b_dd_usernames.csv
+# fup
+rm -rf fup
+gh classroom clone student-repos -a 794340
+mv tarefa-submissions fup
+# ./rename_folders.py b_dd usernames/fup_usernames.csv
 
-gh classroom clone student-repos -a 701146
-mv tko-rep-base-submissions a_dd
-./rename_folders.py a_dd usernames/a_dd_usernames.csv
+# ed_m
+# rm -rf ed_m
+# gh classroom clone student-repos -a 786573
+# mv tarefas-submissions ed_m
+# ./rename_folders.py ed_m usernames/ed_m_usernames.csv
 
-gh classroom clone student-repos -a 696117
-mv tko-base-rep-submissions ec
-./rename_folders.py ec usernames/ec_usernames.csv
+# ed_t
+# rm -rf ed_t
+# gh classroom clone student-repos -a 786637
+# mv tarefas-submissions ed_t
+# ./rename_folders.py ed_t usernames/ed_t_usernames.csv

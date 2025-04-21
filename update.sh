@@ -1,40 +1,39 @@
 #!/bin/bash
 
 if [[ " $* " == *" --all "* ]]; then
-    set -- "$@" --pull --collect --grade --format --push
+    set -- "$@" --pull --collect --grade --format
 fi
 
 
 if [[ " $* " == *" --headers "* ]]; then
     echo "Updating header files..."
-    head -2 a_dd.csv > b_dd.csv
-    head -2 a_dd.csv > ec.csv
+    head -2 ed_m.csv > ed_t.csv
 fi
 
 
 if [[ " $* " == *" --pull "* ]]; then
     echo "Pulling data..."
-    ./pull_all.py a_dd
-    ./pull_all.py b_dd
-    ./pull_all.py ec
+    ./pull_all.py fup
+    ./pull_all.py ed_m
+    ./pull_all.py ed_t
 fi
 
 if [[ " $* " == *" --collect "* ]]; then
     echo "Collecting data from repositories"
-    ./collect.py a_dd/* --csv a_dd.csv --graph graph_a_dd.txt
-    ./collect.py b_dd/* --csv b_dd.csv --graph graph_b_dd.txt
-    ./collect.py ec/*   --csv ec.csv   --graph graph_ec.txt
+    # ./collect.py fup/* --csv fup.csv --graph graph_fup.txt --rep fup
+    ./collect.py ed_m/* --csv ed_m.csv --graph graph_ed_m.txt --rep ed
+    ./collect.py ed_t/* --csv ed_t.csv --graph graph_ed_t.txt --rep ed
 fi
 
 
 if [[ " $* " == *" --grade "* ]]; then
     echo "Updating grades"
-    ./grade.py a_dd.csv
-    ./grade.py b_dd.csv
-    ./grade.py ec.csv
-    ./grade.py a_dd_count.csv
-    ./grade.py b_dd_count.csv
-    ./grade.py ec_count.csv
+    ./grade.py fup.csv
+    ./grade.py ed_m.csv
+    ./grade.py ed_t.csv
+    ./grade.py fup_count.csv
+    ./grade.py ed_m_count.csv
+    ./grade.py ed_t_count.csv
 fi
 
 if [[ " $* " == *" --format "* ]]; then
