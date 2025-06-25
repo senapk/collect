@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import os
 import argparse
+import re
 import subprocess
 import json
 
@@ -40,7 +41,7 @@ def get_user_graph(target: Target) -> str:
     rep_folder = os.path.join(folder, rep)
     if not os.path.isdir(rep_folder):
         return ""
-    result = subprocess.run(["tko", "rep", "graph", "--mono", "-f", rep_folder, "-W", "100", "-H", "15"], capture_output=True, text=True)
+    result = subprocess.run(["tko", "rep", "graph", "-f", rep_folder, "-W", "100", "-H", "15"], capture_output=True, text=True)
     output = result.stdout
     # with open(os.path.join(basedir, folder_name + "_graph.txt"), "w", encoding="utf-8") as graph_file:
     #     graph_file.write(output)
@@ -73,6 +74,10 @@ def load_folders_from_jsons(file: str) -> list[Target]:
         student_target = [Target(os.path.join(class_folders, student), rep) for student in student_list]
         return student_target
         
+def clear_ansi_codes(text: str) -> str:
+    """Remove ANSI escape codes from a string."""
+    ansi_escape = re.compile(r'\x1B\[[0-?9;]*[ -/]*[@-~]')
+    return ansi_escape.sub('', text)
  
 def process_task_jsons(args: argparse.Namespace):
     jsons: list[str] = args.jsons
@@ -81,13 +86,18 @@ def process_task_jsons(args: argparse.Namespace):
         repo_list: list[Target] = load_folders_from_jsons(json_file)
 
         if args.graph:
-            output_file = os.path.splitext(json_file)[0] + "_graph.txt"
-            with open(output_file, "w", encoding="utf-8") as graph_file:
+            output_file_color = os.path.splitext(json_file)[0] + "_color_graph.txt"
+            with open(output_file_color, "w", encoding="utf-8") as graph_file:
                 for repo in repo_list:
-                    graph_file.write("-" * 120 + "\n")
+                    graph_file.write("─" * 120 + "\n")
                     graph_file.write(repo.folder + "\n")
                     graph = get_user_graph(repo)
                     graph_file.write(graph + "\n")
+
+            output_file_mono = os.path.splitext(json_file)[0] + "_mono_graph.txt"
+            with open(output_file_mono, "w", encoding="utf-8") as graph_file:
+                content = clear_ansi_codes(open(output_file_color, "r", encoding="utf-8").read())
+                graph_file.write(content)
 
 
         if args.info:
