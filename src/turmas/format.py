@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 
-from util import load_csv, save_csv
+from .util import load_csv, save_csv
 
 def format_sheet(sheet: list[list[str]]) -> list[list[str]]:
     nl = len(sheet)
@@ -22,11 +22,14 @@ def format_sheet(sheet: list[list[str]]) -> list[list[str]]:
                 sheet[l][c] = sheet[l][c].rjust(max_len)
     return sheet
 
-parser = argparse.ArgumentParser(description='format all csv files')
-parser.add_argument('lista_arquivos_csv', type=str, nargs='+', help='Lista de arquivos csv para formatar')
-args = parser.parse_args()
+def main():
+    parser = argparse.ArgumentParser(description='format a csv file')
+    parser.add_argument('arquivo_csv', type=str, help='Arquivo csv para formatar')
+    args = parser.parse_args()
 
-for arquivo_csv in args.lista_arquivos_csv:
-    sheet = load_csv(arquivo_csv)
+    sheet = load_csv(args.arquivo_csv)
     sheet = format_sheet(sheet)
-    save_csv(arquivo_csv, sheet)
+    save_csv(args.arquivo_csv, sheet)
+
+if __name__ == '__main__':
+    main()

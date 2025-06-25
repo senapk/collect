@@ -20,7 +20,7 @@ fi
 
 if [[ " $* " == *" --collect "* ]]; then
     echo "Collecting data from repositories"
-    # ./collect.py fup/* --csv fup.csv --graph graph_fup.txt --rep fup
+    ./collect.py fup/* --csv fup.csv --graph graph_fup.txt --rep fup
     ./collect.py ed_m/* --csv ed_m.csv --graph graph_ed_m.txt --rep ed
     ./collect.py ed_t/* --csv ed_t.csv --graph graph_ed_t.txt --rep ed
 fi

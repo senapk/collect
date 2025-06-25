@@ -1,13 +1,8 @@
 #!/usr/bin/env python3
-import csv
-import os
 import yaml # type: ignore
-import json
 import argparse
-import datetime
-import subprocess
 
-from util import load_csv, save_csv, Entry, load_entries, load_header
+from util import load_csv, save_csv, Entry, load_entries
 
 def get_self_grade_value(choice: str) -> int:
     dict_values = { "a": 5, "b": 4, "c": 3, "d": 2, "e": 1, "x": 0, }
@@ -68,10 +63,14 @@ def update_grades(sheet: list[list[str]]) -> list[list[str]]:
         sheet[l][1] = "{:.1f}".format(grade).rjust(5)
     return sheet
 
-parser = argparse.ArgumentParser(description="Calcula a nota do aluno")
-parser.add_argument("csv", help="Arquivo CSV com as notas")
-args = parser.parse_args()
+def main():
+    parser = argparse.ArgumentParser(description="Calcula a nota do aluno")
+    parser.add_argument("csv", help="Arquivo CSV com as notas")
+    args = parser.parse_args()
 
-sheet = load_csv(args.csv)
-sheet = update_grades(sheet)
-save_csv(args.csv, sheet)
+    sheet = load_csv(args.csv)
+    sheet = update_grades(sheet)
+    save_csv(args.csv, sheet)
+
+if __name__ == '__main__':
+    main()

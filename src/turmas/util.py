@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import csv
+import argparse
 
 class Entry:
     def __init__(self):
@@ -11,7 +12,7 @@ class Entry:
     def __str__(self):
         return f"{self.category}:{self.weight}:{self.label}:{"+" if self.optional else "!"}"
 
-def load_csv(arquivo_csv) -> list[list[str]]:
+def load_csv(arquivo_csv: str) -> list[list[str]]:
     try:
         with open(arquivo_csv, "r", newline="", encoding="utf-8") as csvfile:
             reader = csv.reader(csvfile)
@@ -28,22 +29,20 @@ def save_csv(arquivo_csv: str, sheet: list[list[str]]):
     except FileNotFoundError:
         exit(f"Arquivo '{arquivo_csv}' não encontrado.")
 
-# load the first 2 lines of the CSV file
-# A8B2               ,grade ,A1     ,A1     ,A1    ,A1          ,A1     ,A1    ,A2      ,A2     ,A3       ,A3      ,A3     ,A3        ,A+2       ,A+2       ,A3     ,A3       ,A3        ,A+2     ,A2      ,A3     ,A2     ,B2    ,B2    ,B+2   ,B+2
-# username           ,grade ,toalha ,animal ,carro ,calculadora ,camisa ,roupa ,relogio ,motoca ,motouber ,charger ,budega ,lapiseira ,tabuleiro ,pula-pula ,cinema ,junkfood ,porquinho ,tarifas ,contato ,agenda ,agiota, shapes, estacionamento, cofre, cadastro
-def load_header(sheet: list[list[str]]) -> list[list[str]]:
-    header: list[list[str]] = []
-    header = [[x.strip() for x in sheet[0]], [x.strip() for x in sheet[1]]]
+def load_opening_cols(sheet: list[list[str]]) -> list[list[str]]:
+    header: list[list[str]] = [["XX", "label"], ["grade", "grade"]]
+    for i in range(2, len(sheet)):
+        header.append([sheet[i][0].strip(), sheet[i][1].strip()])
     return header
 
 def load_entries(sheet: list[list[str]]) -> list[Entry]:
     entry_list: list[Entry] = []
-    if not (sheet[0][1].strip() == "grade" and sheet[1][1].strip() == "grade"):
-        print("O item 2 da primeira linha e segunda linha do arquivo CSV deve ser 'grade'.")
+    if not (sheet[1][0].strip() == "grade" and sheet[1][1].strip() == "grade"):
+        print("Os dois primeiros elementos da segunda linha devem ser 'grade'.")
         exit(1)
-    for i in range(2, len(sheet[0])):
-        weight = sheet[0][i].strip()
-        label = sheet[1][i].strip()
+    for i in range(2, len(sheet)):
+        weight = sheet[i][0].strip()
+        label = sheet[i][1].strip()
         entry = Entry()
         entry.category = weight[0]
         entry.label = label
@@ -58,3 +57,20 @@ def load_entries(sheet: list[list[str]]) -> list[Entry]:
     #         tasks_key_set.update(user_tasks_map[folder].keys())
     #     header = ["user"] + list(tasks_key_set)
     # return header
+
+def transpose_sheet(csv_file: str) -> None:
+    sheet = load_csv(csv_file)
+    transposed_sheet: list[list[str]] = []
+    for i in range(len(sheet[0])):
+        transposed_row = [sheet[j][i] for j in range(len(sheet))]
+        transposed_sheet.append(transposed_row)
+    save_csv(csv_file, transposed_sheet)
+
+def main():
+    parser = argparse.ArgumentParser(description="Transpor arquivo CSV.")
+    parser.add_argument("csv_file", help="Caminho do arquivo CSV.")
+    args = parser.parse_args()
+    transpose_sheet(args.csv_file)
+
+if __name__ == "__main__":
+    main()
