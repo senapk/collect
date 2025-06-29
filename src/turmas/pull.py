@@ -2,8 +2,9 @@
 
 import os
 import argparse
-import json
 from .text import Text
+from .class_task import ClassTask
+from .student_repo import StudentRepo
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -87,20 +88,20 @@ def pull(directory: str) -> Text:
 
     return output
 
-def pull_all_parallel(targets: list[str], max_workers: int = 50):
+def pull_all_parallel(repo_list: list[StudentRepo], max_workers: int = 50):
     """
     Pull all repositories in a list of student folders concurrently.
     Args:
         students_folders (list[str]): List of student folder paths.
         max_workers (int): Maximum number of threads to use.
     """
-    print(f"\n{Text('y')}Iniciando pull de {len(targets)} repositórios com {max_workers} threads...{Text('e')}")
+    print(f"\n{Text('y')}Iniciando pull de {len(repo_list)} repositórios com {max_workers} threads...{Text('e')}")
     start_time = time.time()
 
     # Use ThreadPoolExecutor para gerenciar as threads
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         # Cria um dicionário para mapear os objetos Future de volta para as pastas
-        future_to_folder = {executor.submit(pull, folder): folder for folder in targets}
+        future_to_folder = {executor.submit(pull, repo.folder): repo.folder for repo in repo_list}
 
         # Itera sobre os resultados à medida que ficam prontos
         for future in as_completed(future_to_folder):
@@ -118,22 +119,10 @@ def pull_all_parallel(targets: list[str], max_workers: int = 50):
 
     
 
-def json_run(filepath: str, n_threads: int) -> None:
-    if not os.path.isfile(filepath):
-        print(Text("r") + "File does not exist: " + filepath)
-        return
-    with open(filepath, 'r') as file:
-        data = json.load(file)
-    if not "folder" in data:
-        print(Text("r") + "No folder key in JSON file: " + filepath)
-        return
-    class_folder: str = data["folder"]
-    if not os.path.isdir(class_folder):
-        print(Text("r") + "Folder does not exist: " + class_folder)
-        return
-    students_folders: list[str] = os.listdir(class_folder)
-    students_folders = [os.path.join(class_folder, student) for student in students_folders]
-    pull_all_parallel(students_folders, n_threads)
+def pull_class_task(class_task_path: str, n_threads: int = 5) -> None:
+    class_task = ClassTask().load_from_file(class_task_path)
+    students_repo_list = class_task.load_student_repo_list()
+    pull_all_parallel(students_repo_list, n_threads)
 
 
 def main():
@@ -152,7 +141,7 @@ def main():
 
     if args.jsons:
         for json in args.jsons:
-            json_run(json, n_threads)
+            pull_class_task(json, n_threads)
 
 
 if __name__ == '__main__':

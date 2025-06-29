@@ -16,4 +16,4 @@ dependencies = [
 
 [project.scripts]
 pull = "turmas.pull:main"
-collect = "turmas.collect:main"
+leoa = "turmas.leoa:main"
