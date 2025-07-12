@@ -1,0 +1,6 @@
+{
+    "subdir": "ed",
+    "class": "class/edm",
+    "cache": "cache/edm",
+    "reference": "reference/ed"
+}

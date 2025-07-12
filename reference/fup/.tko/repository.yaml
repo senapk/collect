@@ -1,0 +1,13 @@
+remote: https://github.com/qxcodefup/arcade/blob/master/Readme.md
+version: 0.0.1
+database: database
+expanded: []
+tasks: {}
+flags:
+  minimum: 0
+  percent: 0
+  admin: 0
+  skills: 0
+  graph: 0
+lang: go
+index: campanha-principal
